@@ -10,9 +10,10 @@ import java.io.InputStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.event.MouseInputListener;
+
+import gui.ToggleButton;
 
 public class InstalledFont {
 
@@ -22,10 +23,10 @@ public class InstalledFont {
 	private static final Dimension FONTNAMESIZE    = new Dimension( 200, 30 );
 	private static final Dimension FONTPREVIEWSIZE = new Dimension( 100, 30 );
 	
-	private Font    font;
-	private JLabel  fontname;
-	private JLabel  fontpreview;
-	private JButton buttonLoadFont;
+	private Font         font;
+	private JLabel       fontname;
+	private JLabel       fontpreview;
+	private ToggleButton toggleLoadFont;
 	
 	public InstalledFont( String fontname, MouseInputListener listener ) {
 		this.font = new Font( fontname, Font.PLAIN, 12 );
@@ -41,25 +42,29 @@ public class InstalledFont {
 		this.fontpreview.setMaximumSize( InstalledFont.FONTPREVIEWSIZE );
 		this.fontpreview.setFont( this.font );
 		
-		this.buttonLoadFont = new JButton( "\uf06e" );
-		this.buttonLoadFont.addMouseListener( listener );
-		this.buttonLoadFont.setForeground( Color.GRAY );
+		this.toggleLoadFont = new ToggleButton( "\uf06e" );
+		this.toggleLoadFont.addMouseListener( listener );
+		this.toggleLoadFont.setForeground( Color.GRAY );
 	}
 	
 	public Box buildComponents() {
 		Box hbox      = new Box( BoxLayout.X_AXIS );
 		hbox.add( this.fontname );
 		hbox.add( this.fontpreview );
-		hbox.add( this.buttonLoadFont );
+		hbox.add( this.toggleLoadFont );
 		return hbox;
 	}
 	
 	public boolean isTriggered( MouseEvent e ) {
-		return ( e.getSource() == this.buttonLoadFont ) ? true : false;
+		return this.toggleLoadFont.isTriggered( e );
 	}
 	
 	public Font getFont() {
 		return this.font;
+	}
+	
+	public ToggleButton getToggleButton(){
+		return this.toggleLoadFont;
 	}
 	
 	public static Font loadFont( String path, int style, float size ) {

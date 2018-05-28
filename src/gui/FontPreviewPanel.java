@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -34,8 +35,9 @@ public class FontPreviewPanel extends JPanel implements MouseInputListener, Mous
 	private JLabel  labelFontView                 = new JLabel();
 	private JButton buttonChangeLanguageToGerman  = new JButton();
 	private JButton buttonChangeLanguageToEnglish = new JButton();
-	private JButton toggleBold                    = new JButton( "\uf032" );
-	private JButton toggleItalic                  = new JButton( "\uf033" );
+	private ToggleButton toggleBold               = new ToggleButton( "\uf032" );
+	private ToggleButton toggleItalic             = new ToggleButton( "\uf033" );
+	private Optional<InstalledFont> currentFont   = Optional.empty();
 	private JTextArea previewTextArea             = new JTextArea();
 	
 	private JScrollPane scollPaneInstalledFonts;
@@ -142,21 +144,30 @@ public class FontPreviewPanel extends JPanel implements MouseInputListener, Mous
 		if ( e.getSource() == this.buttonChangeLanguageToEnglish ) {
 			this.lc.setLanguage( LanguageController.EN );
 			this.setAllTexts();
+			
 		} else if ( e.getSource() == this.buttonChangeLanguageToGerman ) {
 			this.lc.setLanguage( LanguageController.DE );
 			this.setAllTexts();
-		} else if ( e.getSource() == this.toggleBold ){
+			
+		} else if ( this.toggleBold.isTriggered( e ) ){
 			int style = this.previewTextArea.getFont().getStyle() ^ Font.BOLD;
+			this.toggleBold.toggle();
 			this.previewTextArea.setFont( this.previewTextArea.getFont().deriveFont( style ) );
-		} else if ( e.getSource() == this.toggleItalic ){
+			
+		} else if ( this.toggleItalic.isTriggered( e ) ){
 			int style = this.previewTextArea.getFont().getStyle() ^ Font.ITALIC;
+			this.toggleItalic.toggle();
 			this.previewTextArea.setFont( this.previewTextArea.getFont().deriveFont( style ) );
+			
 		} else {
 			for ( InstalledFont installedFont : this.installedFonts ) {
 				if ( installedFont.isTriggered( e ) ) {
+					this.currentFont.ifPresent( font -> font.getToggleButton().deactivate() );
+					this.currentFont = Optional.of( installedFont );
 					this.previewTextArea.setFont( installedFont.getFont().deriveFont( this.previewTextArea.getFont().getSize2D() ) );
+					installedFont.getToggleButton().activate();
 					return;
-				}
+				} 
 			}
 		}
 	}
