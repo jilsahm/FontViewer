@@ -153,13 +153,17 @@ public class FontPreviewPanel extends JPanel implements MouseInputListener, Mous
 	public void setAllTexts() {
 		this.labelInstalledFonts.setText( lc.getText( "label_installedFonts" ) );
 		this.labelFontView.setText( lc.getText( "label_fontView" ) );
-		this.labelLoadedFont.setText( lc.getText( "label_loadedFont" ) + " " + lc.getText( "none" ) );
+		this.setLoadedFontText( lc.getText( "none" ) );
 		this.previewTextArea.setText( this.lc.getText( "example_text" ) );
 		this.buttonChangeLanguageToEnglish.setText( lc.getText( "button_english" ) );
 		this.buttonChangeLanguageToGerman.setText( lc.getText( "button_german" ) );
 		this.toggleBold.setToolTipText( lc.getText( "bold" ) );
 		this.toggleItalic.setToolTipText( lc.getText( "italic" ) );
 	}	
+	
+	private void setLoadedFontText( String fontname ) {
+		this.labelLoadedFont.setText( lc.getText( "label_loadedFont" ) + " " + fontname );
+	}
 	
 	@Override
 	public void mouseClicked( MouseEvent e ) {
@@ -191,6 +195,7 @@ public class FontPreviewPanel extends JPanel implements MouseInputListener, Mous
 					this.currentFont = Optional.of( installedFont );
 					this.previewTextArea.setFont( installedFont.getFont().deriveFont( this.previewTextArea.getFont().getSize2D() ) );
 					installedFont.getToggleButton().activate();
+					this.setLoadedFontText( lc.getText( "none" ) );
 					return;
 				} 
 			}
@@ -227,9 +232,13 @@ public class FontPreviewPanel extends JPanel implements MouseInputListener, Mous
 		fileChooser.setLocale( lc.getCurrentLocale() );
 		
         if ( fileChooser.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION ) {
-        	Font font = InstalledFont.loadFont( fileChooser.getSelectedFile().getAbsolutePath(), Font.PLAIN, 12f );
-            //this.previewTextArea.setFont( font );
-            this.labelLoadedFont.setText( lc.getText( "label_loadedFont" ) + " " + font.getFontName() );
+        	Font font = InstalledFont.loadAbsoluteFont( 
+        			fileChooser.getSelectedFile().getAbsolutePath(),
+        			Font.PLAIN,
+        			this.previewTextArea.getFont().getSize()
+        			);
+            this.previewTextArea.setFont( font );
+            this.setLoadedFontText( font.getFontName() );
         }
 	}
 

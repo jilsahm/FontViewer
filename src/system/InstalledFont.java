@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -76,6 +77,16 @@ public class InstalledFont {
         	e.printStackTrace();
         }
 		return null;
-	}
+	}	
 	
+	public static Font loadAbsoluteFont( String path, int style, float size ) {
+		try ( InputStream is = new FileInputStream( path ) ) {
+            Font font = Font.createFont( Font.TRUETYPE_FONT, is );
+            font = font.deriveFont( style, size );
+            return font;
+    	} catch ( IOException | FontFormatException e ){
+        	e.printStackTrace();
+        }
+		return null;
+	}	
 }
