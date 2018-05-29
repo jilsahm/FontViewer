@@ -8,7 +8,7 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class ToggleButton extends JButton{
 
-	private static final Color ACTIVE   = new Color( 100, 200, 100 );
+	private static final Color ACTIVE   = new Color( 66, 176, 0 );
 	private static final Color INACTIVE = Color.GRAY;
 	
 	private boolean toggled;
