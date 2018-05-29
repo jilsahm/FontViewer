@@ -25,6 +25,7 @@ public final class MainFrame extends JFrame{
     public MainFrame() {
         super( "FontViewer" );
         this.lc = new LanguageController();
+        this.setLocale( lc.getCurrentLocale() );
         
         try {
             for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() ) {
@@ -49,6 +50,27 @@ public final class MainFrame extends JFrame{
     private void configureLook() {
         UIManager.put( "Button.font", InstalledFont.icons );
         UIManager.put( "ToolTip.background", Color.RED );
+        
+        UIManager.put("FileChooser.openDialogTitleText", "Open");
+		UIManager.put("FileChooser.lookInLabelText", "LookIn");
+		UIManager.put("FileChooser.openButtonText", "Open");
+		UIManager.put("FileChooser.cancelButtonText", "Cancel");
+		UIManager.put("FileChooser.fileNameLabelText", "FileName");
+		UIManager.put("FileChooser.filesOfTypeLabelText", "TypeFiles");
+		UIManager.put("FileChooser.openButtonToolTipText", "OpenSelectedFile");
+		UIManager.put("FileChooser.cancelButtonToolTipText","Cancel");
+		UIManager.put("FileChooser.fileNameHeaderText","FileName");
+		UIManager.put("FileChooser.upFolderToolTipText", "UpOneLevel");
+		UIManager.put("FileChooser.homeFolderToolTipText","Desktop");
+		UIManager.put("FileChooser.newFolderToolTipText","CreateNewFolder");
+		UIManager.put("FileChooser.listViewButtonToolTipText","List");
+		UIManager.put("FileChooser.newFolderButtonText","CreateNewFolder");
+		UIManager.put("FileChooser.renameFileButtonText", "RenameFile");
+		UIManager.put("FileChooser.deleteFileButtonText", "DeleteFile");
+		UIManager.put("FileChooser.filterLabelText", "TypeFiles");
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", "Details");
+		UIManager.put("FileChooser.fileSizeHeaderText","Size");
+		UIManager.put("FileChooser.fileDateHeaderText", "DateModified");
     }
     
     public void display() {

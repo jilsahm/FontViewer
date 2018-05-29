@@ -29,4 +29,8 @@ public class LanguageController {
 		this.texts         = ResourceBundle.getBundle( "language/MessageBundle", this.currentLocale );
 	}
 	
+	public Locale getCurrentLocale() {
+		return this.currentLocale;
+	}
+	
 }
