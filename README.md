@@ -2,6 +2,8 @@
 
 A little Fontviewer written in Java. The GUI is build with swingx.
 
+<img src="doc/MainView.png">
+
 ## Current Features
 
 * The Programm displays all installed fonts and a little preview of the apearance.
